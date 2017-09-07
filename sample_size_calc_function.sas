@@ -11,6 +11,14 @@ libname data ".\data";
 proc fcmp outlib = fcn.STD_Function.sample_size;
 
 ***Cluster-Level Weighted Log-Rank test;
+**alpha:significant level(usually 0.05);
+**n:number of clusters;
+**D:the marginal probability of observing an event;
+**p1:the limiting proportions of units assigned to treatments 1 and 2;
+**gamma:local alternative(A marginal unweighted proportional hazards local alternative yields U = 1 for the unweighted log-rank
+statistic);
+**rho:intraclass correlation coeÆcient;
+**m:common cluster size;
 function sample_size_CLR(alpha,n,D,p1,gamma,rho,m);
 Z_a=Quantile("NORMAL",1-(alpha/2));
 p2=1-p1;
