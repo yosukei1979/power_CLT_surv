@@ -90,36 +90,9 @@ datalines;
 50  0.05    50  1   0.2 0.24    0.64    0.9 0.22    0.60653066  0.11    0.78    0.5 0.5
 ;
 run;
-data test2(keep=N K rho comp:);
+data power;*(keep=N K rho comp:);
     set test;
     comp_power_CLR=round(sample_size_CLR(alpha,n,D,p1,log(theta),rho,K)*100,0.1);
     comp_power_LWA=round(sample_size_LWA(n*2,alpha,K,phi,P1,P2,theta,rho)*100,0.1);
     comp_power_SFM=round(sample_size_SFM(alpha,N/2,K,PC,beta1,CV)*100,0.1);
-run;
-
-proc sql;
-create table data.power_summarize as select
-B.NOC,
-B.CSIZE,
-B.ICC,
-B.sim_power_CLR,
-A.comp_power_CLR,
-B.sim_power_SFM,
-B.sim_power_LWA,
-A.comp_power_LWA
-A.comp_power_SFM
-from test2 as A
-left join 
-data.sim_power_summarize as B
-on
-B.NOC=A.N and
-B.CSIZE=A.K and
-B.ICC=A.rho
-order by B.NOC,B.CSIZE,B.ICC
-;
-quit;
-
-data pow;
-    set data.power_summarize;
-    where ICC=0.1;
 run;
